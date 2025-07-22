@@ -14,14 +14,25 @@ module.exports = class Home {
     this.location = location;
     this.rating = rating;
     this.img = img;
-    this.id = Math.random().toString();
+
   }
   
   save() {
     Home.fetchAll((registeredHomes) => {
-      registeredHomes.push(this);
+      if(this.id) { //edit home case
+        registeredHomes = registeredHomes.map(home => {
+          if(home.id== this.id) {
+            return this;
+          }
+          return home;
+        })
+      }
+      else {  //add home case
+        this.id = Math.random().toString();
+        registeredHomes.push(this);
+      }
       const filePath = path.join(rootDir,'data','homes.json');
-      fs.writeFile(filePath, JSON.stringify       (registeredHomes), err => {
+      fs.writeFile(filePath, JSON.stringify(registeredHomes), err => {
       console.log(err);
       });
     });

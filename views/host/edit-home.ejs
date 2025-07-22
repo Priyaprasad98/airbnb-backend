@@ -3,10 +3,10 @@
   <%- include('../partials/nav') %>
 
   <main class="max-w-md w-full mx-auto px-4 sm:px-6 lg:px-8">
-    <h1 class="text-red-700 text-3xl text-center p-6 font-medium"><%= editing ? 'Edit' : 'Register'%> your Home!</h1>
+    <h1 class="text-red-700 text-3xl text-center p-6 font-medium"><%= editing ? 'Edit' : 'Register' %> your Home!</h1>
     <form action="/host/<%= editing ? 'edit-home' : 'add-home'%>" method="post" class="space-y-4 flex flex-col items-center w-full">
 
-      <input type="hidden" name="id" value="<%=home.id%>">
+      <input type="hidden" name="id" value="<%= editing ? home.id : ''%>">
 
       <input type="text" placeholder="Enter your home name" name="houseName" value="<%= editing ? home.houseName : ''%>" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700">
 

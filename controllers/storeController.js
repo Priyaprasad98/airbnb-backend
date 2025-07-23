@@ -42,19 +42,19 @@ exports.getBookings = (req,res,next) => {
 
 exports.getHomeDetails = (req,res,next) => {
   const homeId = req.params.homeId; 
-  Home.findById(homeId, home => {
+  Home.findById(homeId).then((([homes]) => {
+    const home = homes[0];
     if(!home) {
       res.redirect("/homes");
       console.log("Home not Found");
     }
     else {
-      console.log(home);
       res.render('store/home-details',{ 
       home: home,
       pageTitle: "Home Detail",
       currentPage: 'homes'});
     }
-  })
+  })); 
 };
 
 exports.postFavouriteList = (req,res,next) => {

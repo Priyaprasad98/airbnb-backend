@@ -17,6 +17,8 @@
       <input type="text" placeholder="Rating" name="rating" value="<%= editing ? home.rating : ''%>" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700">
 
       <input type="text" placeholder="Image URL" name="img" value="<%= editing ? home.img : '' %>" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700">
+
+      <textarea placeholder="Enter Description of home" name="description" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700"><%= editing ? home.description : ''%></textarea>
       
       <input type="submit" value="<%= editing ? 'Update' : 'Register'%>" class="w-full max-w-xs text-white bg-red-700 py-2 rounded-xl mt-4 cursor-pointer hover:bg-red-800 transition">
     </form>

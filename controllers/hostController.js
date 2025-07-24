@@ -10,8 +10,7 @@ exports.getEditHome = (req,res,next) => {
   const homeId = req.params.homeId;
   const editing = req.query.editing === 'true'; //
   console.log(homeId,editing);
-    Home.findById(homeId).then((([homes]) => {
-      const home = homes[0];
+    Home.findById(homeId).then((home) => {
       if(!home) {
         console.log("Home not found for editing.");
         res.redirect("/host/host-home-list");
@@ -23,7 +22,7 @@ exports.getEditHome = (req,res,next) => {
           currentPage: 'host-home-list',
           editing: editing
         });
-    })); 
+    }); 
 };
 
 exports.postAddHome = (req,res,next) => {

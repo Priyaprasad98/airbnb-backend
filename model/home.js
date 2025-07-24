@@ -1,5 +1,5 @@
-//local module
-const db = require("../utils/database");
+//local model
+const {getDB} = require("../utils/database");
 module.exports = class Home {
 
   constructor(houseName, price, location, rating, img, description, id) {
@@ -13,12 +13,10 @@ module.exports = class Home {
   }
   
   save() {
-    if(this.id) { //update
-      return db.execute('UPDATE homes SET houseName=?, price=?, location=?, rating=?, img=?, description=? WHERE id=?', [this.houseName, this.price, this.location, this.rating, this.img, this.description, this.id]);
-    }
-    else { //add
-      return db.execute('INSERT INTO homes (houseName, price, location, rating, img, description) VALUES(?, ?, ?, ?, ?, ?)', [this.houseName, this.price, this.location, this.rating, this.img, this.description]);
-    } 
+    const db = getDB();
+    return db.collection("homes").insertOne(this).then((result)=>{
+      console.log(result);
+    }); 
   }
   
   static fetchAll() {

@@ -10,7 +10,8 @@ exports.getEditHome = (req,res,next) => {
   const homeId = req.params.homeId;
   const editing = req.query.editing === 'true'; //
   console.log(homeId,editing);
-    Home.findById(homeId).then((home => {
+    Home.findById(homeId).then((([homes]) => {
+      const home = homes[0];
       if(!home) {
         console.log("Home not found for editing.");
         res.redirect("/host/host-home-list");
@@ -27,7 +28,7 @@ exports.getEditHome = (req,res,next) => {
 
 exports.postAddHome = (req,res,next) => {
   console.log(req.body);
-  const {houseName, price, location, ratinssg, img, description,id} = req.body;
+  const {houseName, price, location, rating, img, description,id} = req.body;
   const home = new Home(houseName, price, location, rating, img, description,null);
   home.save().then(() => {
     res.redirect("/host/host-home-list");
@@ -55,18 +56,17 @@ exports.postEditHome = (req,res,next) => {
 
 exports.postDeleteHome = (req,res,next) => {
   const id = req.body.id;
-  console.log(id);
-  Home.removeHome(id, (error) => {
+  Home.removeHome(id).catch((error) => {
     if(error) {
       console.log('Error while removing home:',error);
     }
     res.redirect("/host/host-home-list");
-  })
+  });
   Favorite.removeFavorite(id, (error) => {
     if(error) {
       console.log('Error while removing Favorites:',error);
     }
-    })
+    });
  
 }    
 

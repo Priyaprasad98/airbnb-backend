@@ -29,7 +29,7 @@ module.exports = class Home {
     return db.execute('SELECT * FROM homes WHERE id = ?', [homeId]);
   }
 
-  static removeHome(id,callback) {
-
+  static removeHome(id) {
+    return db.execute('DELETE FROM homes WHERE id = ?', [id]);
   } 
 } 

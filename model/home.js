@@ -1,15 +1,19 @@
 //local model
+const { ObjectId } = require("mongodb");
 const {getDB} = require("../utils/database");
 module.exports = class Home {
 
-  constructor(houseName, price, location, rating, img, description, id) {
+  constructor(houseName, price, location, rating, img, description, _id) {
      this.houseName = houseName;
      this.price = price;
      this.location = location;
      this.rating = rating;
      this.img = img;
      this.description = description;
-     this.id = id; //if new home will be added it will be undefined and if edit home will be done that it will have id
+     if(_id) {
+      this._id = _id; //if new home will be added it will be undefined and if edit home will be done that it will have id
+     }
+      
   }
   
   save() {
@@ -25,7 +29,11 @@ module.exports = class Home {
   }
 
   static findById(homeId) {
-    return db.execute('SELECT * FROM homes WHERE id = ?', [homeId]);
+    console.log(homeId);
+   const db = getDB();
+    return db.collection("homes")
+    .find({_id: new ObjectId(String(homeId))})
+    .next();
   }
 
   static removeHome(id) {

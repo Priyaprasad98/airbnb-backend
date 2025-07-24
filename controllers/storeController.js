@@ -27,7 +27,7 @@ exports.getFavouriteList = (req,res,next) => {
   Favorite.getFavorites((favorites) => {
     Home.fetchAll().then((registeredHomes) => {
       registeredHomes.forEach((home) => {
-        if (favorites.includes(home.id)) {
+        if (favorites.includes(home._id)) {
           matchedHomes.push(home);
         }
       });
@@ -42,8 +42,7 @@ exports.getBookings = (req,res,next) => {
 
 exports.getHomeDetails = (req,res,next) => {
   const homeId = req.params.homeId; 
-  Home.findById(homeId).then((([homes]) => {
-    const home = homes[0];
+  Home.findById(homeId).then((home) => {
     if(!home) {
       res.redirect("/homes");
       console.log("Home not Found");
@@ -54,7 +53,7 @@ exports.getHomeDetails = (req,res,next) => {
       pageTitle: "Home Detail",
       currentPage: 'homes'});
     }
-  })); 
+  }); 
 };
 
 exports.postFavouriteList = (req,res,next) => {

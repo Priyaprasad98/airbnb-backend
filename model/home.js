@@ -36,7 +36,11 @@ module.exports = class Home {
     .next();
   }
 
-  static removeHome(id) {
-    return db.execute('DELETE FROM homes WHERE id = ?', [id]);
-  } 
+  static removeHome(homeId) {
+    const db = getDB();
+    return db.collection("homes")
+    .deleteOne({_id: new ObjectId(String(homeId))})
+  }
+
+  
 } 

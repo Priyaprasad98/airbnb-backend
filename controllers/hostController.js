@@ -55,14 +55,17 @@ exports.postEditHome = (req,res,next) => {
 };
 
 exports.postDeleteHome = (req,res,next) => {
-  const id = req.body.id;
-  Home.removeHome(id).catch((error) => {
+  const homeId = req.body.id;
+  Home.removeHome(homeId)
+  .then(() => {
+    res.redirect("/host/host-home-list");
+  }).catch((error) => {
     if(error) {
       console.log('Error while removing home:',error);
     }
-    res.redirect("/host/host-home-list");
+    
   });
-  Favorite.removeFavorite(id, (error) => {
+  Favorite.removeFavorite(homeId, (error) => {
     if(error) {
       console.log('Error while removing Favorites:',error);
     }

@@ -9,6 +9,7 @@ const storeRouter = require("./routes/storeRouter");
 const {hostRouter} = require("./routes/hostRouter");
 const rootdir = require("./utils/pathUtils");
 const errorController = require("./controllers/errorController");
+const {mongoConnect} = require("./utils/database");
 
 const app = express();
 
@@ -30,6 +31,10 @@ app.use(express.static(path.join(rootdir,'public')));
 app.use(errorController.get404);
 
 const port = 3090;
-app.listen(port,() => {
+mongoConnect(client => {
+  console.log(client);
+  app.listen(port,() => {
   console.log(`server is running on http://localhost:${port}`);
+});
 })
+

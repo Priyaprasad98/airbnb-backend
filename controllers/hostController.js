@@ -31,13 +31,13 @@ exports.postAddHome = (req,res,next) => {
   const {houseName, price, location, rating, img, description,id} = req.body;
   const home = new Home(houseName, price, location, rating, img, description,null);
   home.save().then(() => {
-    res.redirect("/host/host-home-list");
+    console.log("Home saved sucessfully!");
   });
-
+   res.redirect("/host/host-home-list");
 };
 
 exports.getHostHomes = (req,res,next) => {
-   Home.fetchAll().then(([registeredHomes,fields]) => {
+   Home.fetchAll().then(registeredHomes => {
     res.render('host/host-home-list', 
       {registeredHomes: registeredHomes,
        pageTitle: 'Host Home List',
@@ -50,8 +50,9 @@ exports.postEditHome = (req,res,next) => {
   const {id, houseName, price, location, rating, img, description} = req.body;
   const home = new Home(houseName, price, location, rating, img, description, id);
   home.save().then(() => {
-    res.redirect("/host/host-home-list");
-  }); 
+    console.log("Home saved sucessfully!");
+  });
+  res.redirect("/host/host-home-list"); 
 };
 
 exports.postDeleteHome = (req,res,next) => {

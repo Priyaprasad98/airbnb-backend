@@ -20,7 +20,8 @@ module.exports = class Home {
   }
   
   static fetchAll() {
-    return db.execute('SELECT * FROM homes');
+    const db = getDB();
+    return db.collection("homes").find().toArray(); //this promise returns cursor that we need to convert in array 
   }
 
   static findById(homeId) {

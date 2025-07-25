@@ -32,7 +32,7 @@ app.use(errorController.get404);
 
 const port = 3090;
 mongoConnect(client => {
-  console.log(client);
+  //console.log(client);
   app.listen(port,() => {
   console.log(`server is running on http://localhost:${port}`);
 });

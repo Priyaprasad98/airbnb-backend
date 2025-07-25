@@ -22,24 +22,6 @@ exports.getHomes = (req,res,next) => {
   });
 };
 
-exports.getFavouriteList = (req,res,next) => {
-  const matchedHomes = [];
-  Favorite.getFavorites((favorites) => {
-    Home.fetchAll().then((registeredHomes) => {
-      registeredHomes.forEach((home) => {
-        if (favorites.includes(home._id)) {
-          matchedHomes.push(home);
-        }
-      });
-      res.render('store/favourite-list', { favorites: matchedHomes, pageTitle: "My Favourites", currentPage: 'favourites' });
-    });
-  });
-};
-
-exports.getBookings = (req,res,next) => {
-    res.render('store/bookings',{ pageTitle: "My Bookings",currentPage: 'bookings'});
-};
-
 exports.getHomeDetails = (req,res,next) => {
   const homeId = req.params.homeId; 
   Home.findById(homeId).then((home) => {
@@ -56,23 +38,55 @@ exports.getHomeDetails = (req,res,next) => {
   }); 
 };
 
+exports.getBookings = (req,res,next) => {
+    res.render('store/bookings',{ pageTitle: "My Bookings",currentPage: 'bookings'});
+};
+
+exports.getFavouriteList = (req,res,next) => {
+  const matchedHomes = [];
+  Favorite.getFavorites().then(favorites => {
+    favorites = favorites.map(fav => fav.homeId); //returns array of strings of homeId instead of an array of object
+    Home.fetchAll().then((registeredHomes) => {
+      //console.log(favorites, registeredHomes);
+      registeredHomes.forEach((home) => {
+        if (favorites.includes(home._id.toString())) {
+          matchedHomes.push(home);
+        }
+      });
+      res.render('store/favourite-list', { favorites: matchedHomes, pageTitle: "My Favourites", currentPage: 'favourites' });
+    });
+  });
+};
+
 exports.postFavouriteList = (req,res,next) => {
   const {action,id} = req.body;
   if(action === 'add') {
-    Favorite.addToFavorite(id, (error) => {
-    if(error) {
-      console.log('Error while marking Favorites:',error);
-    }
-    res.redirect("/favorites");
-  })
-  }
-  else if(action === 'remove') {
-    Favorite.removeFavorite(id, (error) => {
-    if(error) {
-      console.log('Error while removing Favorites:',error);
-    }
-    res.redirect("/favorites");
+    const fav = new Favorite(id);
+    fav.save().then(result => { 
+      if(result) {
+        console.log("fav added", result);
+      }
+      else {
+        console.log("fav already exists, not added.");
+      }
+
+    }).catch(err => {
+      console.log("error while marking favorite:",err);
     })
+    .finally(() => {
+      res.redirect("/favorites");
+    });  
+  }
+
+  else if(action === 'remove') {
+    Favorite.removeFavorite(id)
+    .then(result => {
+      console.log("fav removed", result);
+    }).catch((error) => {
+      console.log('Error while removing Favorites:',error);
+    }).finally(() => {
+      res.redirect("/favorites");
+    }) 
   }
   
 };

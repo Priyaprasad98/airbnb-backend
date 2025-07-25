@@ -55,8 +55,7 @@ module.exports = class Home {
   static removeHome(homeId) {
     const db = getDB();
     return db.collection("homes")
-    .deleteOne({_id: new ObjectId(String(homeId))})
+    .deleteOne({_id: new ObjectId(String(homeId))});
   }
-
 
 } 

@@ -58,18 +58,13 @@ exports.postDeleteHome = (req,res,next) => {
   const homeId = req.body.id;
   Home.removeHome(homeId)
   .then(() => {
-    res.redirect("/host/host-home-list");
-  }).catch((error) => {
-    if(error) {
+    Favorite.removeFavorite(homeId)
+    .catch( (error) => {
       console.log('Error while removing home:',error);
-    }
-    
-  });
-  Favorite.removeFavorite(homeId, (error) => {
-    if(error) {
-      console.log('Error while removing Favorites:',error);
-    }
     });
+    res.redirect("/host/host-home-list");
+  });
+  
  
 }    
 

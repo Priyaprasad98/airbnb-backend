@@ -27,8 +27,15 @@ exports.getEditHome = (req,res,next) => {
 
 exports.postAddHome = (req,res,next) => {
   console.log(req.body);
-  const {houseName, price, location, rating, img, description,id} = req.body;
-  const home = new Home(houseName, price, location, rating, img, description,null);
+  const {houseName, price, location, rating, img, description} = req.body;
+  const home = new Home({
+    houseName, 
+    price, 
+    location, 
+    rating, 
+    img, 
+    description
+  });
   home.save().then(() => {
     console.log("Home saved sucessfully!");
   });
@@ -36,7 +43,7 @@ exports.postAddHome = (req,res,next) => {
 };
 
 exports.getHostHomes = (req,res,next) => {
-   Home.fetchAll().then(registeredHomes => {
+   Home.find().then(registeredHomes => {
     res.render('host/host-home-list', 
       {registeredHomes: registeredHomes,
        pageTitle: 'Host Home List',
@@ -47,26 +54,35 @@ exports.getHostHomes = (req,res,next) => {
 
 exports.postEditHome = (req,res,next) => {
   const {id, houseName, price, location, rating, img, description} = req.body;
-  const home = new Home(houseName, price, location, rating, img, description, id);
+  Home.findById(id).then((home) => {
+  home.houseName = houseName;
+  home.price = price;
+  Home.location = location;
+  Home.rating = rating;
+  Home.img = img;
+  Home.description = description;
   home.save().then(() => {
     console.log("Home saved sucessfully!");
-  });
-  res.redirect("/host/host-home-list"); 
+  }).catch(err => {
+    console.log("Error while updating", err);
+  })
+  res.redirect("/host/host-home-list");
+  }).catch(err => {
+    console.log("Error while finding home", err);
+  }); 
 };
 
 exports.postDeleteHome = (req,res,next) => {
   const homeId = req.body.id;
-  Home.removeHome(homeId)
+  Home.findByIdAndDelete(homeId)
   .then(() => {
-    Favorite.removeFavorite(homeId)
-    .catch( (error) => {
-      console.log('Error while removing home:',error);
-    });
     res.redirect("/host/host-home-list");
-  });
-  
- 
-}    
+  })
+  .catch( (error) => {
+    console.log('Error while removing home:',error);
+  });  
+};
+    
 
 
   

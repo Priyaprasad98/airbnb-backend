@@ -1,6 +1,6 @@
 //local model
-const { ObjectId } = require("mongodb");
-const {getDB} = require("../utils/database");
+
+
 module.exports = class Home {
 
   constructor(houseName, price, location, rating, img, description, _id) {

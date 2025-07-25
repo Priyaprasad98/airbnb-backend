@@ -1,7 +1,7 @@
 //external module
 
 //local module
-const {getDB} = require("../utils/database");
+
 
 module.exports = class Favorite {
  constructor(homeId) {

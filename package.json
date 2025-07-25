@@ -20,6 +20,7 @@
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "mongodb": "^6.18.0",
+    "mongoose": "^8.16.4",
     "mysql2": "^3.14.2",
     "tailwindcss": "^4.1.11"
   }

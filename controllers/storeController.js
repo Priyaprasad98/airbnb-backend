@@ -44,8 +44,8 @@ exports.getBookings = (req,res,next) => {
 
 exports.getFavouriteList = (req,res,next) => {
   const matchedHomes = [];
-  Favorite.getFavorites().then(favorites => {
-    favorites = favorites.map(fav => fav.homeId); //returns array of strings of homeId instead of an array of object
+  Favorite.find().then(favorites => {
+    favorites = favorites.map(fav => fav.homeId.toString()); //returns array of strings of homeId instead of an array of object
     Home.find().then((registeredHomes) => {
       //console.log(favorites, registeredHomes);
       registeredHomes.forEach((home) => {
@@ -61,25 +61,25 @@ exports.getFavouriteList = (req,res,next) => {
 exports.postFavouriteList = (req,res,next) => {
   const {action,id} = req.body;
   if(action === 'add') {
-    const fav = new Favorite(id);
-    fav.save().then(result => { 
-      if(result) {
-        console.log("fav added", result);
-      }
-      else {
-        console.log("fav already exists, not added.");
-      }
-
-    }).catch(err => {
-      console.log("error while marking favorite:",err);
-    })
-    .finally(() => {
-      res.redirect("/favorites");
-    });  
+    Favorite.findOne({ homeId: id})
+      .then(existingFav => {
+        if(existingFav) {
+          res.redirect("/favorites");
+          return null;
+        }
+        const fav = new Favorite({homeId: id});
+        return fav.save();
+      })
+      .then(() => {
+        return res.redirect("/favorites");
+      })
+      .catch(err => {
+        console.log("error while marking favorite:",err);
+      });
   }
 
   else if(action === 'remove') {
-    Favorite.removeFavorite(id)
+    Favorite.findOneAndDelete({homeId:id}) //can be find using any attribute but findById() only finds using _id attribute
     .then(result => {
       console.log("fav removed", result);
     }).catch((error) => {

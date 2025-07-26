@@ -43,19 +43,17 @@ exports.getBookings = (req,res,next) => {
 };
 
 exports.getFavouriteList = (req,res,next) => {
-  const matchedHomes = [];
-  Favorite.find().then(favorites => {
-    favorites = favorites.map(fav => fav.homeId.toString()); //returns array of strings of homeId instead of an array of object
-    Home.find().then((registeredHomes) => {
-      //console.log(favorites, registeredHomes);
-      registeredHomes.forEach((home) => {
-        if (favorites.includes(home._id.toString())) {
-          matchedHomes.push(home);
-        }
+  Favorite.find().populate('homeId').
+  then(favorites => {
+    console.log("before mapping",favorites);
+    const favoriteHomes = favorites.map(fav => fav.homeId);
+    console.log("after mapping",favoriteHomes);
+      res.render('store/favourite-list', {
+        favoriteHomes: favoriteHomes,
+        pageTitle: "My Favourites", 
+        currentPage: 'favourites' 
       });
-      res.render('store/favourite-list', { favorites: matchedHomes, pageTitle: "My Favourites", currentPage: 'favourites' });
     });
-  });
 };
 
 exports.postFavouriteList = (req,res,next) => {

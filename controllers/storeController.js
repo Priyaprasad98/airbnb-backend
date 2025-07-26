@@ -79,7 +79,7 @@ exports.postFavouriteList = (req,res,next) => {
   }
 
   else if(action === 'remove') {
-    Favorite.findOneAndDelete({homeId:id}) //can be find using any attribute but findById() only finds using _id attribute
+    Favorite.findOneAndDelete({homeId: id}) //can be find using any attribute but findById() only finds using _id attribute
     .then(result => {
       console.log("fav removed", result);
     }).catch((error) => {

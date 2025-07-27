@@ -6,6 +6,7 @@ const express = require("express");
 const {mongoose} = require("mongoose");
 
 //local module
+const authRouter = require("./routes/authRouter");
 const storeRouter = require("./routes/storeRouter");
 const {hostRouter} = require("./routes/hostRouter");
 const rootdir = require("./utils/pathUtils");
@@ -23,7 +24,16 @@ app.use((req,res,next) => {
 
 app.use(express.urlencoded());
 
+app.use(authRouter);
 app.use(storeRouter);
+app.use("/host", (req,res,next) => {
+  if(req.isLoggedIn) {
+    next();
+  }
+  else {
+    res.redirect("/login");
+  }
+});
 app.use("/host",hostRouter);
 
 app.use(express.static(path.join(rootdir,'public')));

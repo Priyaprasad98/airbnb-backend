@@ -1,0 +1,17 @@
+<%- include('../partials/head') %>
+<body>
+  <%- include('../partials/nav') %>
+
+  <main class="max-w-md w-full mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-red-700 text-3xl text-center p-6 font-medium">Login your Account!</h1>
+    <form action="/login" method="POST" class="space-y-4 flex flex-col items-center w-full">
+
+      <input type="text" placeholder="Enter your username" name="username" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700">
+
+      <input type="email" placeholder="enter your Email" name="email" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700">
+      
+      <input type="submit" value="Login" class="w-full max-w-xs text-white bg-red-700 py-2 rounded-xl mt-4 cursor-pointer hover:bg-red-800 transition">
+    </form>
+  </main>
+</body>
+</html>

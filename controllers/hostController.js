@@ -3,7 +3,12 @@ const Home = require("../model/home");
 const Favorite = require("../model/favorite");
 
 exports.getAddHome = (req,res,next) => {
-  res.render('host/edit-home' , {pageTitle: "airbnb Add Home", currentPage: 'addHome', editing: false});
+  res.render('host/edit-home',{
+    pageTitle: "airbnb Add Home",
+    currentPage: 'addHome',
+    editing: false,
+    isLoggedIn: req.isLoggedIn
+  });
 };
 
 exports.getEditHome = (req,res,next) => {
@@ -20,7 +25,8 @@ exports.getEditHome = (req,res,next) => {
         {home:home,
           pageTitle: "Edit Your Home",
           currentPage: 'host-home-list',
-          editing: editing
+          editing: editing,
+          isLoggedIn: req.isLoggedIn
         });
     }); 
 };
@@ -48,6 +54,7 @@ exports.getHostHomes = (req,res,next) => {
       {registeredHomes: registeredHomes,
        pageTitle: 'Host Home List',
        currentPage: 'host-home-list',
+       isLoggedIn: req.isLoggedIn
     });
   });
 };

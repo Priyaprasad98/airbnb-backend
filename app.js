@@ -24,6 +24,13 @@ app.use((req,res,next) => {
 
 app.use(express.urlencoded());
 
+app.use( (req,res,next)=> {
+  console.log(req.get('Cookie'));
+  req.isLoggedIn = req.get('Cookie')?.split('=')[1] === 'true' || false;
+  console.log(req.isloggedIn);
+  next();
+});
+
 app.use(authRouter);
 app.use(storeRouter);
 app.use("/host", (req,res,next) => {

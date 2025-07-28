@@ -8,6 +8,7 @@ exports.getLogin = (req, res, next) => {
 
 exports.postLogin = (req, res, next) => {
   console.log(req.body);
-  req.isLoggedIn = true; //setting flag
+  //req.isLoggedIn = true; //setting flag
+  res.cookie("isLoggedIn", true);
   res.redirect("/homes");
 }

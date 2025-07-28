@@ -4,6 +4,7 @@ const Favorite = require("../model/favorite");
 
 exports.getIndex = (req,res,next) => {
   Home.find().then((registeredHomes) => {
+    console.log("session value:",req.session);
     res.render('store/index', {
       registeredHomes: registeredHomes, 
         pageTitle: "airbnb Home",

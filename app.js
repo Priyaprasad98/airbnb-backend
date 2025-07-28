@@ -4,6 +4,7 @@ const path = require("path");
 //External Module
 const express = require("express");
 const {mongoose} = require("mongoose");
+const session = require("express-session");
 
 //local module
 const authRouter = require("./routes/authRouter");
@@ -17,17 +18,21 @@ const app = express();
 app.set("view engine","ejs");
 app.set("views","views");
 
+app.use(express.urlencoded());
+
+app.use(session({
+  secret: "airbnb",
+  resave: false,
+  saveUninitialized: true
+}));
+
 app.use((req,res,next) => {
   console.log(req.url,req.method);
   next();
 });
 
-app.use(express.urlencoded());
-
 app.use( (req,res,next)=> {
-  console.log(req.get('Cookie'));
-  req.isLoggedIn = req.get('Cookie')?.split('=')[1] === 'true' || false;
-  console.log(req.isloggedIn);
+  req.isLoggedIn = req.session.isLoggedIn;
   next();
 });
 
@@ -49,6 +54,7 @@ app.use(errorController.get404);
 
 const port = 3090;
 const DB_PATH = "***REMOVED***";
+
 mongoose.connect(DB_PATH).then(() => {
   app.listen(port,() => {
   console.log(`server is running on http://localhost:${port}`);

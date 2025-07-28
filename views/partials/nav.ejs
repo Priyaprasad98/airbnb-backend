@@ -15,10 +15,14 @@
       <a href = "/host/add-home" class="<%= currentPage === 'addHome' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Add Home</a>
 
       <% } %>
-
+      <% if(!isLoggedIn) {%>
       <a href = "/login" class="<%= currentPage === 'login' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">login</a>
+      <% } else { %>
+      <form action="/logout" method="POST">
+        <input type = "submit" value="Logout" class="hover:bg-red-400 px-4 py-2 mr-8 rounded transition duration-300">
+      </form>
+      <% } %>
 
-      
 
     </nav>
   </header>

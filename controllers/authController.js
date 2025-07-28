@@ -10,5 +10,12 @@ exports.postLogin = (req, res, next) => {
   console.log(req.body);
   //req.isLoggedIn = true; //setting flag
   res.cookie("isLoggedIn", true);
-  res.redirect("/homes");
+  res.redirect("/");
+}
+
+exports.postLogout = (req, res, next) => {
+  console.log(req.body);
+  //req.isLoggedIn = true; //setting flag
+  res.clearCookie("isLoggedIn");
+  res.redirect("/");
 }

@@ -23,5 +23,5 @@ exports.postLogout = (req, res, next) => {
       return res.redirect("/");
     }
   })
-  res.redirect("/");
+  res.redirect("/login");
 }

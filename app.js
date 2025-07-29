@@ -5,6 +5,9 @@ const path = require("path");
 const express = require("express");
 const {mongoose} = require("mongoose");
 const session = require("express-session");
+const connectMongoDBSession = require("connect-mongodb-session"); //function
+const sessionStore = connectMongoDBSession(session); //class
+const DB_PATH = "***REMOVED***";
 
 //local module
 const authRouter = require("./routes/authRouter");
@@ -18,12 +21,18 @@ const app = express();
 app.set("view engine","ejs");
 app.set("views","views");
 
+const store= new sessionStore({
+  uri: DB_PATH,
+  collection: "sessions"
+});
+
 app.use(express.urlencoded());
 
 app.use(session({
   secret: "airbnb",
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: store //session will now save in store rather than memory
 }));
 
 app.use((req,res,next) => {
@@ -33,6 +42,7 @@ app.use((req,res,next) => {
 
 app.use( (req,res,next)=> {
   req.isLoggedIn = req.session.isLoggedIn;
+  console.log("value of isloggedIn while logout",req.isLoggedIn); //undefined
   next();
 });
 
@@ -48,12 +58,12 @@ app.use("/host", (req,res,next) => {
 });
 app.use("/host",hostRouter);
 
-app.use(express.static(path.join(rootdir,'public')));
+app.use(express.static(path.join(rootdir,"public")));
 
 app.use(errorController.get404);
 
 const port = 3090;
-const DB_PATH = "***REMOVED***";
+
 
 mongoose.connect(DB_PATH).then(() => {
   app.listen(port,() => {

@@ -1,27 +1,116 @@
 <%- include('../partials/head') %>
-<body>
+<body class="bg-gray-50">
   <%- include('../partials/nav') %>
 
-  <main class="max-w-md w-full mx-auto px-4 sm:px-6 lg:px-8">
-    <h1 class="text-red-700 text-3xl text-center p-6 font-medium"><%= editing ? 'Edit' : 'Register' %> your Home!</h1>
-    <form action="/host/<%= editing ? 'edit-home' : 'add-home'%>" method="post" class="space-y-4 flex flex-col items-center w-full">
+  <main class="min-h-screen py-12 sm:px-6 lg:px-8">
+    <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+      <div class="mb-8 text-center">
+        <div class="flex justify-center mb-4">
+          <svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-900"><%= editing ? 'Edit' : 'Register' %> your Home</h1>
+        <p class="mt-2 text-sm text-gray-600">Fill in the details of your property</p>
+      </div>
 
-      <input type="hidden" name="id" value="<%= editing ? home._id : ''%>">
+      <form action="/host/<%= editing ? 'edit-home' : 'add-home'%>" method="post" class="space-y-6">
+        <input type="hidden" name="id" value="<%= editing ? home._id : ''%>">
 
-      <input type="text" placeholder="Enter your home name" name="houseName" value="<%= editing ? home.houseName : ''%>" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700">
+        <div class="relative">
+          <label for="houseName" class="block text-sm font-medium text-gray-700">House Name</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+            </div>
+            <input type="text" id="houseName" name="houseName" value="<%= editing ? home.houseName : ''%>" placeholder="Enter your home name" required
+              class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
+              focus:outline-none focus:border-red-800">
+          </div>
+        </div>
 
-      <input type="text" placeholder="Price per night" name="price" value="<%= editing ? home.price : ''%>" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700">
+        <div class="relative">
+          <label for="price" class="block text-sm font-medium text-gray-700">Price per Night</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <input type="text" id="price" name="price" value="<%= editing ? home.price : ''%>" placeholder="Price per night" required
+              class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
+              focus:outline-none focus:border-red-800">
+          </div>
+        </div>
 
-      <input type="text" placeholder="Location" name="location" value="<%= editing ? home.location : ''%>" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700">
+        <div class="relative">
+          <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <input type="text" id="location" name="location" value="<%= editing ? home.location : ''%>" placeholder="Location" required
+              class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
+              focus:outline-none focus:border-red-800">
+          </div>
+        </div>
 
-      <input type="text" placeholder="Rating" name="rating" value="<%= editing ? home.rating : ''%>" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700">
+        <div class="relative">
+          <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              </svg>
+            </div>
+            <input type="text" id="rating" name="rating" value="<%= editing ? home.rating : ''%>" placeholder="Rating" required
+              class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
+              focus:outline-none focus:border-red-800">
+          </div>
+        </div>
 
-      <input type="text" placeholder="Image URL" name="img" value="<%= editing ? home.img : '' %>" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700">
+        <div class="relative">
+          <label for="img" class="block text-sm font-medium text-gray-700">Image URL</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <input type="text" id="img" name="img" value="<%= editing ? home.img : ''%>" placeholder="Image URL"
+              class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
+              focus:outline-none focus:border-red-800">
+          </div>
+        </div>
 
-      <textarea placeholder="Enter Description of home" name="description" class="w-full max-w-xs px-3 py-2 text-base border border-gray-400 rounded shadow focus:outline-none focus:border-red-700"><%= editing ? home.description : ''%></textarea>
-      
-      <input type="submit" value="<%= editing ? 'Update' : 'Register'%>" class="w-full max-w-xs text-white bg-red-700 py-2 rounded-xl mt-4 cursor-pointer hover:bg-red-800 transition">
-    </form>
+        <div class="relative">
+          <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute top-3 left-0 pl-3 flex items-start pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            </div>
+            <textarea id="description" name="description" placeholder="Enter Description of home"
+              class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
+              focus:outline-none focus:border-red-800"><%= editing ? home.description : ''%></textarea>
+          </div>
+        </div>
+
+        <button type="submit"
+          class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-1 focus:ring-red-700 focus:ring-offset-0 transition-colors duration-200">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+          </svg>
+          <%= editing ? 'Update Home' : 'Register Home'%>
+        </button>
+      </form>
+    </div>
   </main>
 </body>
 </html>

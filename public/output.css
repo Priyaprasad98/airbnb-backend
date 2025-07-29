@@ -227,11 +227,17 @@
   .inset-y-0 {
     inset-block: calc(var(--spacing) * 0);
   }
+  .top-3 {
+    top: calc(var(--spacing) * 3);
+  }
   .top-14 {
     top: calc(var(--spacing) * 14);
   }
   .top-16 {
     top: calc(var(--spacing) * 16);
+  }
+  .top-\[1px\] {
+    top: 1px;
   }
   .right-0 {
     right: calc(var(--spacing) * 0);

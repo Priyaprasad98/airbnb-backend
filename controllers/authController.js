@@ -2,7 +2,7 @@ exports.getLogin = (req, res, next) => {
   res.render("auth/Login", {
     pageTitle: "Login Your Credentials",
     currentPage: "login",
-    isLoggedIn: req.isLoggedIn
+    isLoggedIn: false
   });
 }
 
@@ -24,4 +24,12 @@ exports.postLogout = (req, res, next) => {
     }
   })
   res.redirect("/login");
+}
+
+exports.getsignup = (req, res, next) => {
+  res.render("auth/signup", {
+    pageTitle: "signup",
+    currentPage: "signup",
+    isLoggedIn: false
+  });
 }

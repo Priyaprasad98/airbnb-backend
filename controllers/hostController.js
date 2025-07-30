@@ -1,6 +1,5 @@
 //local module
 const Home = require("../model/home");
-const Favorite = require("../model/favorite");
 
 exports.getAddHome = (req,res,next) => {
   res.render('host/edit-home',{
@@ -13,8 +12,7 @@ exports.getAddHome = (req,res,next) => {
 
 exports.getEditHome = (req,res,next) => {
   const homeId = req.params.homeId;
-  const editing = req.query.editing === 'true'; //
-  console.log(homeId,editing);
+  const editing = req.query.editing === 'true'; 
     Home.findById(homeId).then((home) => {
       if(!home) {
         console.log("Home not found for editing.");
@@ -32,7 +30,6 @@ exports.getEditHome = (req,res,next) => {
 };
 
 exports.postAddHome = (req,res,next) => {
-  console.log(req.body);
   const {houseName, price, location, rating, img, description} = req.body;
   const home = new Home({
     houseName, 

@@ -34,11 +34,11 @@ exports.getHomeDetails = (req,res,next) => {
     }
     else {
       res.render('store/home-details',{ 
-      home: home,
-      pageTitle: "Home Detail",
-      currentPage: 'homes',
-      isLoggedIn: req.isLoggedIn
-    });
+        home: home,
+        pageTitle: "Home Detail",
+        currentPage: 'homes',
+        isLoggedIn: req.isLoggedIn
+      });
     }
   }); 
 };
@@ -54,9 +54,7 @@ exports.getBookings = (req,res,next) => {
 exports.getFavouriteList = (req,res,next) => {
   Favorite.find().populate('homeId').
   then(favorites => {
-    console.log("before mapping",favorites);
     const favoriteHomes = favorites.map(fav => fav.homeId);
-    console.log("after mapping",favoriteHomes);
       res.render('store/favourite-list', {
         favoriteHomes: favoriteHomes,
         pageTitle: "My Favourites", 

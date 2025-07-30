@@ -9,14 +9,10 @@ exports.getLogin = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
   console.log(req.body);
   req.session.isLoggedIn = true; //setting flag
-  //res.cookie("isLoggedIn", true);
-  //req.isLoggedIn = true;
   res.redirect("/");
 }
 
 exports.postLogout = (req, res, next) => {
-  console.log(req.body);
-  //res.clearCookie("isLoggedIn");
   req.session.destroy((err) => {
     if(err) {
       console.log('Error destroying session:', err);
@@ -26,10 +22,16 @@ exports.postLogout = (req, res, next) => {
   res.redirect("/login");
 }
 
-exports.getsignup = (req, res, next) => {
+exports.getSignup = (req, res, next) => {
   res.render("auth/signup", {
     pageTitle: "signup",
     currentPage: "signup",
     isLoggedIn: false
   });
+}
+
+exports.postSignup = (req, res, next) => {
+  console.log(req.body);
+  req.session.isLoggedIn = true; //setting flag
+  res.redirect("/login");
 }

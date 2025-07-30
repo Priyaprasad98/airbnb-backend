@@ -13,10 +13,32 @@ exports.getLogin = (req, res, next) => {
   });
 };
 
-exports.postLogin = (req, res, next) => {
-  req.session.isLoggedIn = true; //setting flag
-  res.redirect("/");
-};
+exports.postLogin = async (req, res, next) => {
+  const {email, password} = req.body;
+  const user = await User.findOne({email});
+    if(!user) {
+     res.status(422).render("auth/Login", {
+       pageTitle: "Login Your Credentials",
+       currentPage: "login",
+       isLoggedIn: false,
+       errors: ["Invalid email"],
+       oldInput: {email}
+      });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+      if(!isMatch) {
+        res.status(422).render("auth/Login", {
+          pageTitle: "Login Your Credentials",
+          currentPage: "login",
+          isLoggedIn: false,
+          errors: ["Invalid password"],
+          oldInput: {}
+        });
+      }
+    req.session.isLoggedIn = true;
+    req.session.user = user; //setting flag
+    res.redirect("/");
+  }
 
 exports.postLogout = (req, res, next) => {
   req.session.destroy((err) => {

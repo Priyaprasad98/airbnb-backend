@@ -1,4 +1,8 @@
+//external module
 const { validationResult, check } = require("express-validator");
+
+//local module
+const User = require("../model/user");
 
 exports.getLogin = (req, res, next) => {
   res.render("auth/Login", {
@@ -28,7 +32,8 @@ exports.getSignup = (req, res, next) => {
   res.render("auth/signup", {
     pageTitle: "Sign Up",
     currentPage: "signup",
-    isLoggedIn: false
+    isLoggedIn: false,
+    oldInput: {}
   });
 };
 
@@ -123,8 +128,26 @@ exports.postSignup = [
         password,
         userType
       }
-    })
+    });
   }
-  res.redirect("/login");
- }
+  const user = new User({firstName, lastName, email, password, userType});
+  user.save().then(() => {
+    res.redirect("/login");
+  }).catch((err) => {
+     console.log("error while saving user:", err);
+      return res.status(422).render("auth/signup", {
+        currentPage: 'signup',
+        pageTitle: "Sign Up",
+        isLoggedIn: false,
+        errors: [err.message],
+        oldInput: {
+          firstName,
+          lastName,
+          email,
+          password,
+          userType
+        }
+      });
+    });
+  }
 ];

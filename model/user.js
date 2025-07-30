@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
   userType: {
     type: String,
     enum: ["guest", "host"],
-    default: guest
+    default: "guest"
   }
 
 });

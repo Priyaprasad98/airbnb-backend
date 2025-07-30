@@ -1,5 +1,6 @@
 //external module
 const { validationResult, check } = require("express-validator");
+const bcrypt = require("bcryptjs")
 
 //local module
 const User = require("../model/user");
@@ -13,7 +14,6 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.postLogin = (req, res, next) => {
-  console.log(req.body);
   req.session.isLoggedIn = true; //setting flag
   res.redirect("/");
 };
@@ -113,8 +113,6 @@ exports.postSignup = [
   
   const { firstName, lastName, email, password, userType } = req.body;
   const errors = validationResult(req);
-    console.log(req.body);
-  console.log(errors);
   if(!errors.isEmpty()) {
     return res.status(422).render("auth/signup", {
       currentPage: 'signup',
@@ -125,15 +123,19 @@ exports.postSignup = [
         firstName,
         lastName,
         email,
-        password,
         userType
       }
     });
   }
-  const user = new User({firstName, lastName, email, password, userType});
-  user.save().then(() => {
+  bcrypt.hash(password, 12)
+  .then(hashedPassword => {
+    const user = new User({firstName, lastName, email, password: hashedPassword, userType});
+    return user.save();
+  })
+  .then(() => {
     res.redirect("/login");
-  }).catch((err) => {
+  })
+  .catch((err) => {
      console.log("error while saving user:", err);
       return res.status(422).render("auth/signup", {
         currentPage: 'signup',

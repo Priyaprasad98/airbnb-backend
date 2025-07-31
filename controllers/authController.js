@@ -9,7 +9,9 @@ exports.getLogin = (req, res, next) => {
   res.render("auth/Login", {
     pageTitle: "Login Your Credentials",
     currentPage: "login",
-    isLoggedIn: false
+    isLoggedIn: false,
+    errors: [],
+    oldInput: {}
   });
 };
 
@@ -17,7 +19,7 @@ exports.postLogin = async (req, res, next) => {
   const {email, password} = req.body;
   const user = await User.findOne({email});
     if(!user) {
-     res.status(422).render("auth/Login", {
+     return res.status(422).render("auth/Login", {
        pageTitle: "Login Your Credentials",
        currentPage: "login",
        isLoggedIn: false,
@@ -27,7 +29,7 @@ exports.postLogin = async (req, res, next) => {
     }
     const isMatch = await bcrypt.compare(password, user.password);
       if(!isMatch) {
-        res.status(422).render("auth/Login", {
+        return res.status(422).render("auth/Login", {
           pageTitle: "Login Your Credentials",
           currentPage: "login",
           isLoggedIn: false,

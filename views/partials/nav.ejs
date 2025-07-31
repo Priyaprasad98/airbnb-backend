@@ -4,27 +4,31 @@
       <a href="/" class="<%= currentPage === 'index' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Airbnb </a>
       
       <% if( isLoggedIn ) { %>
-      <a href = "/homes" class="<%= currentPage === 'homes' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Homes-List</a>
+        <% if(user && user.userType === 'guest') { %>
+         <a href = "/homes" class="<%= currentPage === 'homes' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Homes-List</a>
 
-      <a href = "/favorites" class="<%= currentPage === 'favourites' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Favorites</a>
+         <a href = "/favorites" class="<%= currentPage === 'favourites' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Favorites</a>
 
-      <a href = "/bookings" class="<%= currentPage === 'bookings' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Bookings</a>
+         <a href = "/bookings" class="<%= currentPage === 'bookings' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Bookings</a>
+       
+         <% } else { %>
 
-      <a href = "/host/host-home-list" class="<%= currentPage === 'host-home-list' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Host Homes</a>
+         <a href = "/host/host-home-list" class="<%= currentPage === 'host-home-list' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Host Homes</a>
 
-      <a href = "/host/add-home" class="<%= currentPage === 'addHome' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Add Home</a>
-
+         <a href = "/host/add-home" class="<%= currentPage === 'addHome' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">Add Home</a>
+        <% } %>
       <% } %>
-      <% if(!isLoggedIn) {%>
-      <a href = "/login" class="<%= currentPage === 'login' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">login</a>
+      <% if(!isLoggedIn) { %>
+        
+        <a href = "/login" class="<%= currentPage === 'login' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">login</a>
 
-      <a href = "/signup" class="<%= currentPage === 'signup' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">signup</a>
+        <a href = "/signup" class="<%= currentPage === 'signup' ? 'bg-red-400' : 'hover:bg-red-400' %> px-4 py-2 mr-8 rounded transition duration-300">signup</a>
 
-      <% } else { %>
-      <form action="/logout" method="POST">
-        <input type = "submit" value="Logout" class="hover:bg-red-400 px-4 py-2 mr-8 rounded transition duration-300">
-      </form>
-      <% } %>
+        <% } else { %>
+        <form action="/logout" method="POST">
+          <input type = "submit" value="Logout" class="hover:bg-red-400 px-4 py-2 mr-8 rounded transition duration-300">
+        </form>
+       <% } %>
 
 
     </nav>

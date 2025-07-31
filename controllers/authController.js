@@ -11,7 +11,8 @@ exports.getLogin = (req, res, next) => {
     currentPage: "login",
     isLoggedIn: false,
     errors: [],
-    oldInput: {}
+    oldInput: {},
+    user: {}
   });
 };
 
@@ -24,7 +25,8 @@ exports.postLogin = async (req, res, next) => {
        currentPage: "login",
        isLoggedIn: false,
        errors: ["Invalid email"],
-       oldInput: {email}
+       oldInput: {email},
+       user: {}
       });
     }
     const isMatch = await bcrypt.compare(password, user.password);
@@ -34,7 +36,8 @@ exports.postLogin = async (req, res, next) => {
           currentPage: "login",
           isLoggedIn: false,
           errors: ["Invalid password"],
-          oldInput: {}
+          oldInput: {},
+          user: {}
         });
       }
     req.session.isLoggedIn = true;
@@ -57,7 +60,8 @@ exports.getSignup = (req, res, next) => {
     pageTitle: "Sign Up",
     currentPage: "signup",
     isLoggedIn: false,
-    oldInput: {}
+    oldInput: {},
+    user: {}
   });
 };
 
@@ -143,6 +147,7 @@ exports.postSignup = [
       pageTitle: "Sign Up",
       isLoggedIn: false,
       errors: errors.array().map(error => error.msg),
+      user: {},
       oldInput: {
         firstName,
         lastName,
@@ -162,10 +167,11 @@ exports.postSignup = [
   .catch((err) => {
      console.log("error while saving user:", err);
       return res.status(422).render("auth/signup", {
-        currentPage: 'signup',
+        currentPage: "signup",
         pageTitle: "Sign Up",
         isLoggedIn: false,
         errors: [err.message],
+        user: {},
         oldInput: {
           firstName,
           lastName,

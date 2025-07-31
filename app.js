@@ -3,7 +3,7 @@ const path = require("path");
 
 //External Module
 const express = require("express");
-const {mongoose} = require("mongoose");
+const mongoose = require("mongoose");
 const session = require("express-session");
 const connectMongoDBSession = require("connect-mongodb-session"); //function
 const sessionStore = connectMongoDBSession(session); //class
@@ -42,14 +42,13 @@ app.use((req,res,next) => {
 
 app.use( (req,res,next)=> {
   req.isLoggedIn = req.session.isLoggedIn;
-  console.log("value of isloggedIn while logout",req.isLoggedIn); //undefined
   next();
 });
 
 app.use(authRouter);
 app.use(storeRouter);
 app.use("/host", (req,res,next) => {
-  if(req.isLoggedIn) {
+  if(req.isLoggedIn && req.session.userType === 'host') {
     next();
   }
   else {

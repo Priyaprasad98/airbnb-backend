@@ -3,7 +3,9 @@ const express = require("express");
 
 const hostRouter = express.Router();
 const hostController = require("../controllers/hostController");
+const restrictTo = require("../middlewares/restrictTo");
 
+hostRouter.use(restrictTo("host"));
 
 hostRouter.get("/add-home", hostController.getAddHome);
 

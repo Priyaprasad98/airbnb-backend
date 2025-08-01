@@ -1,14 +1,14 @@
-//core Module
-const path = require("path");
-
 //External Module
 const express = require("express");
 
 //local Module
-const storeRouter = express.Router();
 const storeController = require("../controllers/storeController");
+const restrictTo = require("../middlewares/restrictTo");
 
-storeRouter.get("/",storeController.getIndex);
+const storeRouter = express.Router();
+
+
+storeRouter.use(restrictTo("guest"));
 
 storeRouter.get("/homes",storeController.getHomes);
 

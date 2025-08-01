@@ -48,13 +48,20 @@ app.use( (req,res,next)=> {
 app.use(authRouter);
 app.use(storeRouter);
 app.use("/host", (req,res,next) => {
-  if(req.isLoggedIn && req.session.userType === 'host') {
-    next();
-  }
+  if(req.isLoggedIn) {
+    if(req.session.userType === 'host') {
+      next();
+    }
+    else {
+      console.log("Can't access the Host information");
+      return errorController.get403(req,res,next);
+    }
+  }  
   else {
-    res.redirect("/login");
-  }
+   res.redirect("/login");
+  }  
 });
+
 app.use("/host",hostRouter);
 
 app.use(express.static(path.join(rootdir,"public")));

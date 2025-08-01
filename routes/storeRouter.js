@@ -2,11 +2,10 @@
 const express = require("express");
 
 //local Module
-const storeController = require("../controllers/storeController");
-const restrictTo = require("../middlewares/restrictTo");
-
 const storeRouter = express.Router();
+const storeController = require("../controllers/storeController");
 
+const restrictTo = require("../middlewares/restrictTo");
 
 storeRouter.use(restrictTo("guest"));
 

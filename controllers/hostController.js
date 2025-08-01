@@ -20,14 +20,14 @@ exports.getEditHome = (req,res,next) => {
         res.redirect("/host/host-home-list");
         return;
       }
-      res.render('host/edit-home',
-        {home:home,
-          pageTitle: "Edit Your Home",
-          currentPage: 'host-home-list',
-          editing: editing,
-          isLoggedIn: req.isLoggedIn,
-          user: req.session.user
-        });
+      res.render('host/edit-home',{
+        home:home,
+        pageTitle: "Edit Your Home",
+        currentPage: 'host-home-list',
+        editing: editing,
+        isLoggedIn: req.isLoggedIn,
+        user: req.session.user
+      });
     }); 
 };
 

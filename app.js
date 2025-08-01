@@ -10,9 +10,10 @@ const sessionStore = connectMongoDBSession(session); //class
 const DB_PATH = "***REMOVED***";
 
 //local module
+const commonRouter = require("./routes/commonRouter");
 const authRouter = require("./routes/authRouter");
 const storeRouter = require("./routes/storeRouter");
-const {hostRouter} = require("./routes/hostRouter");
+const hostRouter = require("./routes/hostRouter");
 const rootdir = require("./utils/pathUtils");
 const errorController = require("./controllers/errorController");
 
@@ -27,6 +28,7 @@ const store= new sessionStore({
 });
 
 app.use(express.urlencoded());
+app.use(express.static(path.join(rootdir,"public")));
 
 app.use(session({
   secret: "airbnb",
@@ -45,36 +47,18 @@ app.use( (req,res,next)=> {
   next();
 });
 
+app.use(commonRouter);
 app.use(authRouter);
+app.use("/host", hostRouter);
 app.use(storeRouter);
-app.use("/host", (req,res,next) => {
-  if(req.isLoggedIn) {
-    if(req.session.userType === 'host') {
-      next();
-    }
-    else {
-      console.log("Can't access the Host information");
-      return errorController.get403(req,res,next);
-    }
-  }  
-  else {
-   res.redirect("/login");
-  }  
-});
-
-app.use("/host",hostRouter);
-
-app.use(express.static(path.join(rootdir,"public")));
 
 app.use(errorController.get404);
 
 const port = 3090;
-
-
 mongoose.connect(DB_PATH).then(() => {
   app.listen(port,() => {
   console.log(`server is running on http://localhost:${port}`);
 });
 }).catch((err)=> {
   console.log("error while connecting to mongo:",err);
-})
+});

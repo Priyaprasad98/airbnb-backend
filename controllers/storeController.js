@@ -2,18 +2,6 @@
 const Home = require("../model/home");
 const User = require("../model/user");
 
-exports.getIndex = (req,res,next) => {
-  Home.find().then((registeredHomes) => {
-    res.render('store/index', {
-      registeredHomes: registeredHomes, 
-        pageTitle: "airbnb Home",
-        currentPage: 'index',
-        isLoggedIn: req.isLoggedIn,
-        user: req.session.user
-      });
-  });
-};
-
 exports.getHomes = (req,res,next) => {
   Home.find().then((registeredHomes) => {
     res.render('store/home-list', {
@@ -57,7 +45,6 @@ exports.getBookings = (req,res,next) => {
 exports.getFavouriteList = async (req,res,next) => {
   const userId = req.session.user._id;
   const user = await User.findById(userId).populate('favorites');
-  console.log(user);
   res.render('store/favourite-list', {
     favoriteHomes: user.favorites,
     pageTitle: "My Favourites", 
@@ -69,7 +56,6 @@ exports.getFavouriteList = async (req,res,next) => {
 
 exports.postFavouriteList = async (req,res,next) => {
   const {action,id} = req.body;
-  console.log(req.body);
   if(action === 'add') {
     const userId = req.session.user._id;
     const user = await User.findById(userId);

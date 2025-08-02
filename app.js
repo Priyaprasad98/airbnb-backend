@@ -7,7 +7,8 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const connectMongoDBSession = require("connect-mongodb-session"); //function
 const sessionStore = connectMongoDBSession(session); //class
-const DB_PATH = "***REMOVED***";
+require('dotenv').config();
+const DB_PATH = process.env.DB_PATH;
 
 //local module
 const commonRouter = require("./routes/commonRouter");

@@ -14,7 +14,7 @@
         <p class="mt-2 text-sm text-gray-600">Fill in the details of your property</p>
       </div>
 
-      <form action="/host/<%= editing ? 'edit-home' : 'add-home'%>" method="post" class="space-y-6">
+      <form action="/host/<%= editing ? 'edit-home' : 'add-home'%>" method="post" enctype="multipart/form-data" class="space-y-6">
         <input type="hidden" name="id" value="<%= editing ? home._id : ''%>">
 
         <div class="relative">
@@ -75,16 +75,16 @@
         </div>
 
         <div class="relative">
-          <label for="img" class="block text-sm font-medium text-gray-700">Image URL</label>
+          <label for="img" class="block text-sm font-medium text-gray-700">Image Upload</label>
           <div class="mt-1 relative rounded-md shadow-sm">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <input type="text" id="img" name="img" value="<%= editing ? home.img : ''%>" placeholder="Image URL"
-              class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400
-              focus:outline-none focus:border-red-800">
+            <input type="file" id="img" name="img" accept="image/jpg, image/jpeg, image/png"
+              class="pl-10 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 placeholder-gray-400
+              focus:outline-none focus:border-red-800 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100 transition" />
           </div>
         </div>
 

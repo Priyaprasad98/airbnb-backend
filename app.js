@@ -2,6 +2,7 @@
 const path = require("path");
 
 //External Module
+const multer = require("multer");
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -29,6 +30,7 @@ const store= new sessionStore({
 });
 
 app.use(express.urlencoded());
+app.use(multer().single('img'));
 app.use(express.static(path.join(rootdir,"public")));
 
 app.use(session({

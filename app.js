@@ -40,29 +40,37 @@ const randomString = (length) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    if(file.fieldname === 'img') {
+      cb(null, "uploads/img");
+    } else if(file.fieldname === 'docs') {
+      cb(null, 'uploads/docs/');
+    }
   },
   filename: (req, file, cb) => {
     cb(null, randomString(10) + '-' + file.originalname);
   }
 });
 
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
-    cb(null, true);
-  } else {
-    cb(null, false);
+const fileFilter = (req, file, cb) =>  {
+  if(file.fieldname === 'img') {
+     if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+       cb(null, true);
+     } else {
+       cb(null, false);
+     }
+  } else if (file.fieldname === 'docs') {
+    if (file.mimetype === 'application/pdf') {
+       cb(null, true);
+     } else {
+       cb(null, false);
+     }
   }
+ 
 }
 
 const multerOptions = { //the middleware will process that one file and attach its metadata (like the file path, size, etc.) to req.file
   storage, fileFilter
 };
-
-app.use(express.urlencoded());
-app.use(multer(multerOptions).single('img'));
-app.use(express.static(path.join(rootdir,"public")));
-app.use("/uploads", express.static(path.join(rootdir,"uploads/")));
 
 app.use(session({
   secret: "airbnb",
@@ -70,6 +78,16 @@ app.use(session({
   saveUninitialized: true,
   store: store //session will now save in store rather than memory
 }));
+
+app.use(express.urlencoded());
+app.use(multer(multerOptions).fields([
+  { name: 'img', maxCount: 1 },
+  { name: 'docs', maxCount: 1 }
+]));
+app.use(express.static(path.join(rootdir,"public")));
+app.use("/uploads", express.static(path.join(rootdir,"uploads/")));
+
+
 
 app.use((req,res,next) => {
   console.log(req.url,req.method);

@@ -20,6 +20,9 @@ const homeSchema = new mongoose.Schema({
   img: {
     type: String,
   },
+  docs: {
+    type: String,
+  },
   description: {
     type: String,
   }

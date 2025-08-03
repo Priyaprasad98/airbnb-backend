@@ -1,5 +1,10 @@
+//external module
+const path = require("path");
+const fs = require("fs");
+
 //local module
 const Home = require("../model/home");
+const rootDir = require("../utils/pathUtils");
 
 exports.getAddHome = (req,res,next) => {
   res.render('host/edit-home',{
@@ -78,14 +83,31 @@ exports.postEditHome = (req,res,next) => {
   home.location = location;
   home.rating = rating;
   home.description = description;
+
   if(req.files.img && req.files.img[0]) {
+    const filePath = path.join(rootDir, 'uploads','img', home.img );
+     fs.unlink(filePath, (err) => {
+        if (err) {
+          console.log("Error while deleting file ", err);
+        }
+      });
     home.img = req.files.img[0].filename;
-  } else if(req.files.docs && req.files.docs[0]) {
+  } 
+
+  else if(req.files.docs && req.files.docs[0]) {
+    const filePath = path.join(rootDir, 'uploads','docs', home.docs );
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.log("Error while deleting file ", err);
+      }
+    });
     home.docs = req.files.docs[0].filename;
   }
-  Home.save().then(() => {
+
+  home.save().then(() => {
     console.log("Home saved sucessfully!");
-  }).catch(err => {
+  })
+  .catch(err => {
     console.log("Error while updating", err);
   })
   res.redirect("/host/host-home-list");

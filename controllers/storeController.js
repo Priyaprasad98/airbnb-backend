@@ -89,9 +89,9 @@ exports.getHouseRules = async (req, res, next) => {
   else {
    const homeId = req.params.homeId;
    const home = await Home.findById(homeId);
-  //  const ruleFileName = 'House Rules-${homeId}.pdf';
+    const ruleFileName = `House Rules-${home.houseName}.pdf`;
    const filePath = path.join(rootDir, 'uploads','docs', home.docs );
-   res.download(filePath, err => {
+   res.download(filePath, ruleFileName, err => {
      if (err) {
         console.error("Download error:", err);
         return res.status(404).render("404page", {

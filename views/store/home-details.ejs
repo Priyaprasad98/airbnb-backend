@@ -9,7 +9,7 @@
     <section class="flex flex-col lg:flex-row gap-12 items-start">
       <!-- Image Section -->
       <div class="lg:w-1/2 w-full flex justify-center items-center">
-      <img src="../../uploads/<%= home.img%>" alt="<%= home.houseName %>" class="w-full max-w-lg h-80 object-cover rounded-xl shadow border-2 border-red-700">
+      <img src="../../uploads/img/<%= home.img %>" alt="<%= home.houseName %>" class="w-full max-w-lg h-80 object-cover rounded-xl shadow border-2 border-red-700">
       </div>
       <!-- Details Section -->
       <div class="lg:w-1/2 w-full bg-red-50 rounded-xl p-8 shadow">
@@ -35,6 +35,10 @@
         <p class="text-base text-red-600">
        <%= home.description%>
         </p>
+      </div>
+      <div class="mb-5">
+        <a href = "/rules/<%=home._id%>" class="text-lg text-blue-700">Download House rules </a>
+
       </div>
       <div class="mt-6 flex gap-4">
         <button class="bg-red-700 hover:bg-red-800 text-white px-6 py-2 rounded-lg shadow transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 font-semibold text-base">Book Now</button>

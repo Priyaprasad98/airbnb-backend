@@ -19,5 +19,7 @@ storeRouter.post("/favorites",storeController.postFavouriteList);
 
 storeRouter.get("/homes/:homeId",storeController.getHomeDetails);
 
+storeRouter.get("/rules/:homeId",storeController.getHouseRules);
+
 
 module.exports = storeRouter;

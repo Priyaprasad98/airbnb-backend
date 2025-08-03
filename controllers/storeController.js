@@ -1,3 +1,7 @@
+//external module
+const path =require("path");
+const rootDir = require("../utils/pathUtils");
+
 //local module
 const Home = require("../model/home");
 const User = require("../model/user");
@@ -78,6 +82,27 @@ exports.postFavouriteList = async (req,res,next) => {
   }  
 };
 
-
+exports.getHouseRules = async (req, res, next) => {
+  if(!req.session.isLoggedIn) {
+    return res.redirect("/login");
+  } 
+  else {
+   const homeId = req.params.homeId;
+   const home = await Home.findById(homeId);
+  //  const ruleFileName = 'House Rules-${homeId}.pdf';
+   const filePath = path.join(rootDir, 'uploads','docs', home.docs );
+   res.download(filePath, err => {
+     if (err) {
+        console.error("Download error:", err);
+        return res.status(404).render("404page", {
+          pageTitle: "File Not Found",
+          currentPage: "404page",
+          isLoggedIn: req.isLoggedIn,
+          user: req.session.user
+        });
+      } 
+   }   
+   )};
+};
 
 

@@ -32,18 +32,23 @@ exports.getEditHome = (req,res,next) => {
 };
 
 exports.postAddHome = (req,res,next) => {
+   console.log("[HOST CONTROLLER] postAddHome triggered");
   const {houseName, price, location, rating, description} = req.body;
-  if(!req.file) {
+
+  if(!req.files || !req.files.img || !req.files.img[0]) {
     return res.status(422).send("No image provided");
+  } else if(!req.files.docs || !req.files.docs[0]) {
+    return res.status(422).send("No docs for rule book provided");
   }
-  const img = req.file.filename;
-  console.log(img);
+  const img = req.files.img[0].filename;
+  const docs = req.files.docs[0].filename;
   const home = new Home({
     houseName, 
     price, 
     location, 
     rating, 
     img, 
+    docs,
     description
   });
   home.save().then(() => {
@@ -66,8 +71,6 @@ exports.getHostHomes = (req,res,next) => {
 
 exports.postEditHome = (req,res,next) => {
   const {id, houseName, price, location, rating, description} = req.body;
-  console.log( id, houseName, price, location, rating, description);
-  console.log(req.file);
   
   Home.findById(id).then((home) => {
   home.houseName = houseName;
@@ -75,10 +78,12 @@ exports.postEditHome = (req,res,next) => {
   home.location = location;
   home.rating = rating;
   home.description = description;
-  if(req.file) {
-    Home.img = req.file.filename;
+  if(req.files.img && req.files.img[0]) {
+    home.img = req.files.img[0].filename;
+  } else if(req.files.docs && req.files.docs[0]) {
+    home.docs = req.files.docs[0].filename;
   }
-  home.save().then(() => {
+  Home.save().then(() => {
     console.log("Home saved sucessfully!");
   }).catch(err => {
     console.log("Error while updating", err);
